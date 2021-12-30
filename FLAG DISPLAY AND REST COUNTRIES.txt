@@ -1,57 +1,18 @@
 TASK - 4
 
-  2 and 3)   DISPLAY COUNTRY NAME  flags 
- code: <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-    <title>list of countries</title>
-</head>
-    <style>
-    h1{
-        color:red
-    }
-    p{
-        color:blueviolet
-    }
-    </style>
-<body>
-    <h1>list of country</h1>
-    <ul id="list">
-        <li>India</li>
-        <li>korea</li>
-        <li>USA</li>
-    </ul>
-
-</body>
-<script type="text/javascript">
-    var xhttp = new XMLHttpRequest();
-    var respJSON = [];
-    xhttp.onreadystatechange = function (){
-        if(this.readyState == 4 && this.status == 200){
-            resp = this.responseText;
-            respJSON = JSON.parse(resp);
-
-            htmel = document.getElementById("list");
-            html.innerHTML = "";
-
-            debugger;
-            for(var i=0; i<respJSON.length; i++){
-                html.innerHTML += "<li id="+i+" onclick='clickMe("+i+")'>" + respJSON[i].name + "</li>"
-            }
+var xhr = new XMLHttpRequest();
+xhr.open("GET","http://api.countrylayer.com/v2/all?access_key=c3e66c09cc2d9459d9dea2873784866a");
+xhr.onload = function(){
+    if(xhr.status>=100 && xhr.status<200){
+        let data=JSON.parse(this.response);
+        for(let i; i<data.length; i++){
+            let user = data[i];
+            console.log(data[i].name);
+            console.log(data[i].region);
+            console.log(data[i].subregion);
+            console.log(data[i].population);
         }
+        // console.log(xhr.response);
     }
-    xhttp.open("GET","https://restcountries.eu/rest/v2/all",true);
-    xhttp.send();
-
-    function clickMe(index){
-        li = document.getElementById(index);
-        img = document.createElement("img")
-        img.src = respJSON[index].flag;
-        li.append(img);
-    }
-
-</script>
-</html>
+};
+xhr.send();
